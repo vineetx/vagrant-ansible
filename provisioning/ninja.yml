@@ -14,22 +14,20 @@
       apt: upgrade=safe
 
     - name: install python-apt for debian
-      action: command /usr/bin/apt-get install -y python-apt
-
-    - name: install unzip
-      apt: 
-        name: unzip
-        state: present
-        update-cache: yes
+      apt: pkg="{{item}}" state=present update-cache=yes
+      with_items:
+       - python-apt
+       - unzip
+       - supervisor
 
     - name: set timezone to Asia/Kolkata
       timezone:
         name: Asia/Kolkata
 
     - remote_user: vagrant
-      # become: true
-      # become_method: sudo
-      # become_user: root
+      become: true
+      become_method: sudo
+      become_user: root
       user:
         name: testuser
         groups: admin
@@ -38,11 +36,8 @@
         password: testuser
         state: present
 
-    - name: Install Supervisor
-      apt: name=supervisor state=latest
-
     - name: Install consul
-      shell: "wget https://releases.hashicorp.com/consul/1.1.0/consul_1.1.0_linux_amd64.zip"
-      shell: "unzip consul_1.1.0_linux_amd64.zip"
-      shell: "mv consul /usr/bin/"
-      sheel: "consul -v"
+      get_url: url={{  "https://releases.hashicorp.com/consul/1.1.0/consul_1.1.0_linux_amd64.zip" }} dest={{ "/home/vagrant/"}}/{{ "consul_1.1.0_linux_amd64.zip" }}
+
+    - name: unzip
+      shell: "unzip /home/vagrant/consul_1.1.0_linux_amd64.zip -d /usr/bin/"
