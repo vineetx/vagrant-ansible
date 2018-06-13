@@ -31,16 +31,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  config.vm.synced_folder "/Users/punchh_vineet/Desktop/pythonVirtual/vagrant-test/", "/home/ubuntu/",
-      mount_options: ["noatime,intr,nordirplus,nolock,async,noacl,fsc,tcp"],
-      type: "nfs"
+    # config.vm.synced_folder "/", "/home/testuser/",
+    #     mount_options: ["noatime,intr,nordirplus,nolock,async,noacl,fsc,tcp"],
+    #     type: "nfs"
 
   config.vm.boot_timeout = 9000
 
   # Ansible provisioner.
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "provisioning/new.yml"
-    ansible.inventory_path = "provisioning/inventory"
+    ansible.playbook = "provisioning/ninja.yml"
+    #ansible.inventory_path = "provisioning/inventory"
     ansible.sudo = true
   end
 end
