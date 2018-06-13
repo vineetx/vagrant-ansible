@@ -16,9 +16,9 @@
     - name: install python-apt for debian
       action: command /usr/bin/apt-get install -y python-apt
 
-    - name: install git
+    - name: install unzip
       apt: 
-        name: git
+        name: unzip
         state: present
         update-cache: yes
 
@@ -27,9 +27,9 @@
         name: Asia/Kolkata
 
     - remote_user: vagrant
-      become: true
-      become_method: sudo
-      become_user: root
+      # become: true
+      # become_method: sudo
+      # become_user: root
       user:
         name: testuser
         groups: admin
@@ -41,5 +41,8 @@
     - name: Install Supervisor
       apt: name=supervisor state=latest
 
-    # - name: Install consul
-    #   shell: 
+    - name: Install consul
+      shell: "wget https://releases.hashicorp.com/consul/1.1.0/consul_1.1.0_linux_amd64.zip"
+      shell: "unzip consul_1.1.0_linux_amd64.zip"
+      shell: "mv consul /usr/bin/"
+      sheel: "consul -v"
